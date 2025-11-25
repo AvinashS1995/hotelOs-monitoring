@@ -1,0 +1,60 @@
+.stat-card .icon-box {
+  width: 55px;
+  height: 55px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.icon-box.blue     { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.icon-box.orange   { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.icon-box.red      { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.icon-box.green    { background: linear-gradient(135deg, #22c55e, #16a34a); }
+
+/* Device Cards */
+.device-card {
+  border-radius: 14px;
+  padding: 15px;
+}
+
+.device-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.status-online {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-warning {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.status-offline {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge.status-online {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.badge.status-warning {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.badge.status-offline {
+  background: #fee2e2;
+  color: #b91c1c;
+}

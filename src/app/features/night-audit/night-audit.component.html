@@ -1,0 +1,178 @@
+<div class="night-audit container-fluid py-4">
+ <!-- Header Card (Option A: actions on the right) -->
+<div class="header-card rounded-lg p-4 mb-4 text-white d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between">
+  <div>
+    <h3 class="mb-1">Night Audit - {{ auditData.date }}</h3>
+    <p class="mb-0 text-white-50">Daily closing and reconciliation</p>
+  </div>
+
+  <div class="mt-3 mt-md-0 ms-md-3">
+    <div *ngIf="auditStatus === 'pending'">
+      <button class="btn btn-light btn-lg" (click)="runAudit()">Run Night Audit</button>
+    </div>
+
+    <div *ngIf="auditStatus === 'running'" class="w-100">
+      <div class="d-flex justify-content-between mb-2 small">
+        <small>Processing...</small>
+        <small>{{ progress }}%</small>
+      </div>
+      <div class="progress audit-progress">
+        <div class="progress-bar" role="progressbar" [style.width.%]="progress" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
+
+    <div *ngIf="auditStatus === 'completed'" class="d-flex align-items-center gap-2">
+      <i class="bi bi-check-circle-fill fs-4 text-success"></i>
+      <span class="fw-semibold">Audit completed successfully</span>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- Revenue Summary -->
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-md-3" *ngFor="let stat of [
+      { icon: 'bi-currency-dollar', label: 'Total Revenue', value: auditData.totalRevenue },
+      { icon: 'bi-receipt', label: 'Transactions', value: auditData.transactions },
+      { icon: 'bi-check2-circle', label: 'Occupancy (%)', value: auditData.occupancy.percentage },
+      { icon: 'bi-exclamation-circle', label: 'Pending', value: auditData.pendingPayments }
+    ]">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex gap-3 align-items-center">
+          <div class="stat-icon bg-soft rounded-lg d-flex align-items-center justify-content-center">
+            <i [class]="'bi ' + stat.icon + ' fs-4'"></i>
+          </div>
+          <div>
+            <div class="text-muted small">{{ stat.label }}</div>
+            <div class="fw-semibold">
+              <ng-container *ngIf="stat.label === 'Total Revenue' || stat.label === 'Pending'">
+                ${{ stat.value.toFixed(2) }}
+              </ng-container>
+              <ng-container *ngIf="stat.label === 'Transactions'">
+                {{ stat.value }}
+              </ng-container>
+              <ng-container *ngIf="stat.label === 'Occupancy (%)'">
+                {{ stat.value.toFixed(1) }}%
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-lg-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="mb-3">Revenue by Department</h5>
+          <div class="list-vertical">
+            <div *ngFor="let dept of revenuByDepartment" class="mb-3">
+              <div class="d-flex justify-content-between mb-1">
+                <div class="text-muted">{{ dept.department }}</div>
+                <div class="fw-semibold">${{ dept.revenue.toFixed(2) }}</div>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <div class="flex-fill bg-light rounded-pill" style="height:8px;">
+                  <div class="progress-dept rounded-pill" [style.width.%]="dept.percentage"></div>
+                </div>
+                <div class="text-muted small" style="width:60px;">{{ dept.percentage }}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="mb-3">Daily Activity</h5>
+          <div class="d-grid gap-2">
+            <div class="p-3 bg-blue-50 rounded">
+              <div class="d-flex justify-content-between">
+                <div class="text-muted">Check-ins Today</div>
+                <div class="fw-semibold">{{ auditData.checkIns }} guests</div>
+              </div>
+            </div>
+            <div class="p-3 bg-green-50 rounded">
+              <div class="d-flex justify-content-between">
+                <div class="text-muted">Check-outs Today</div>
+                <div class="fw-semibold">{{ auditData.checkOuts }} guests</div>
+              </div>
+            </div>
+            <div class="p-3 bg-purple-50 rounded">
+              <div class="d-flex justify-content-between">
+                <div class="text-muted">Current Occupancy</div>
+                <div class="fw-semibold">{{ auditData.occupancy.occupied }}/{{ auditData.occupancy.total }}</div>
+              </div>
+            </div>
+            <div class="p-3 bg-orange-50 rounded">
+              <div class="d-flex justify-content-between">
+                <div class="text-muted">Vacant Rooms</div>
+                <div class="fw-semibold">{{ auditData.occupancy.vacant }} rooms</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Folio Summary Table -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body p-0">
+      <div class="p-4 border-bottom">
+        <h5 class="mb-0">Folio Summary</h5>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Room</th>
+              <th>Guest</th>
+              <th class="text-end">Charges</th>
+              <th class="text-end">Payments</th>
+              <th class="text-end">Balance</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let folio of folioSummary">
+              <td>{{ folio.room }}</td>
+              <td>{{ folio.guest }}</td>
+              <td class="text-end">${{ folio.charges.toFixed(2) }}</td>
+              <td class="text-end">${{ folio.payments.toFixed(2) }}</td>
+              <td class="text-end">${{ folio.balance.toFixed(2) }}</td>
+              <td>
+                <span class="badge"
+                  [ngClass]="folio.status === 'closed' ? 'bg-success text-white' : 'bg-warning text-dark'">
+                  {{ folio.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions (shown after completion) -->
+  <div *ngIf="auditStatus === 'completed'" class="card p-4 shadow-sm">
+    <h5 class="mb-3">Audit Actions</h5>
+    <div class="d-grid gap-2 d-sm-flex">
+      <button class="btn btn-primary me-sm-2" (click)="downloadReport()">
+        <i class="bi bi-download me-2"></i>Download Report
+      </button>
+      <button class="btn btn-success me-sm-2" (click)="emailManagement()">
+        <i class="bi bi-envelope-paper me-2"></i>Email to Management
+      </button>
+      <button class="btn btn-outline-secondary" (click)="exportAccounting()">
+        <i class="bi bi-file-earmark-text me-2"></i>Export to Accounting
+      </button>
+    </div>
+  </div>
+</div>

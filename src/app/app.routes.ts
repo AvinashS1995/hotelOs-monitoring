@@ -8,6 +8,8 @@ import { MaintenanceComponent } from './features/maintenance/maintenance.compone
 import { ManagerComponent } from './features/manager/manager.component';
 import { PosComponent } from './features/pos/pos.component';
 import { GuestComponent } from './features/guest/guest.component';
+import { IotMonitoringComponent } from './features/iot-monitoring/iot-monitoring.component';
+import { NightAuditComponent } from './features/night-audit/night-audit.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
@@ -35,6 +37,16 @@ export const routes: Routes = [
       {
         path: 'manager',
         component: ManagerComponent,
+        data: { allowedRoles: ['manager'] },
+      },
+      {
+        path: 'iot-monitoring',
+        component: IotMonitoringComponent,
+        data: { allowedRoles: ['manager'] },
+      },
+      {
+        path: 'night-audit',
+        component: NightAuditComponent,
         data: { allowedRoles: ['manager'] },
       },
       { path: 'pos', component: PosComponent, data: { allowedRoles: ['pos'] } },

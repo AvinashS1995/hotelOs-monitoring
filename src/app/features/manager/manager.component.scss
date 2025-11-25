@@ -20,11 +20,15 @@
     font-size: 1.15rem;
   }
 
-  // gradients similar to the original UI
+  .icon-circle-sm { width:42px; height:42px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; }
+
   .stat-green { background: linear-gradient(135deg,#10b981,#059669); }
   .stat-blue  { background: linear-gradient(135deg,#3b82f6,#1e40af); }
   .stat-purple{ background: linear-gradient(135deg,#7c3aed,#6d28d9); }
   .stat-yellow{ background: linear-gradient(135deg,#f59e0b,#d97706); }
+
+  .stat-indigo { background: linear-gradient(135deg,#5b21b6,#4338ca); }
+  .stat-purple { background: linear-gradient(135deg,#7c3aed,#6d28d9); }
 
   .bg-gradient-panel {
     background: linear-gradient(135deg,#6d28d9,#3b82f6);
@@ -32,4 +36,5 @@
 
   .card { border-radius: 12px; }
   .progress { background: rgba(0,0,0,0.05); }
+  .quick-card { text-align: left; border-radius:12px; min-height:100%; }
 }

@@ -1,0 +1,34 @@
+.stat-card .icon-circle {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+/* Icons inside circle - white */
+.icon-circle .bi {
+  color: white;
+  font-size: 20px;
+}
+
+.stat-green {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.stat-blue {
+  background: linear-gradient(135deg, #3b82f6, #1e40af);
+  color: white;
+}
+
+.stat-purple {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: white;
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}

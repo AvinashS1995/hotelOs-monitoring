@@ -1,0 +1,40 @@
+/* Mobile backdrop + drawer */
+.mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1050;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.mobile-drawer {
+  width: 260px;
+  max-width: 80%;
+  height: 100%;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* small helper */
+.bg-light-blue {
+  background: #eef7ff !important;
+}
+
+/* location bar gradient (similar to original) */
+.bg-gradient-to-r {
+  background: linear-gradient(to right, #eff6ff, #f8f0ff);
+}
+
+/* max height for notifications scroll area (adjust as needed) */
+.max-vh-50 {
+  max-height: 320px;
+}
+
+/* ensure dropdowns float above everything */
+.position-absolute {
+  z-index: 1200;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+}

@@ -1,0 +1,76 @@
+/* Container padding handled by Bootstrap container-fluid */
+.maintenance-dashboard {
+  /* Stat card icon circle */
+.stat-card .icon-circle {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+/* Icons inside circle - white */
+.icon-circle .bi {
+  color: white;
+  font-size: 20px;
+}
+
+  /* Stat color classes */
+  .stat-orange { background: linear-gradient(90deg,#fb923c,#f97316); }
+  .stat-blue   { background: linear-gradient(90deg,#3b82f6,#6366f1); }
+  .stat-green  { background: linear-gradient(90deg,#10b981,#34d399); }
+  .stat-red    { background: linear-gradient(90deg,#ef4444,#f97316); }
+
+  /* Ticket card */
+  .ticket-card {
+    border-radius: 0.9rem;
+    cursor: pointer;
+    transition: transform .12s ease, box-shadow .12s ease;
+    .category-emoji { width: 48px; text-align: center; }
+
+    &:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(15,23,42,0.08); }
+    .priority-badge { text-transform: capitalize; }
+    .status-badge { text-transform: capitalize; }
+
+    /* priority variants */
+    .priority-critical { background:#fff5f5; color:#dc2626; border:1px solid rgba(220,38,38,0.08); }
+    .priority-high     { background:#fff7ed; color:#f97316; border:1px solid rgba(249,115,22,0.08); }
+    .priority-medium   { background:#fffbeb; color:#d97706; border:1px solid rgba(217,119,6,0.08); }
+    .priority-low      { background:#ecfccb; color:#15803d; border:1px solid rgba(21,128,61,0.06); }
+
+    /* status variants */
+    .status-pending    { background:#f8fafc; color:#475569; border:1px solid rgba(71,85,105,0.05); }
+    .status-assigned   { background:#eff6ff; color:#2563eb; border:1px solid rgba(37,99,235,0.06); }
+    .status-inprogress { background:#f5f3ff; color:#7c3aed; border:1px solid rgba(124,58,237,0.06); }
+    .status-resolved   { background:#ecfdf5; color:#059669; border:1px solid rgba(5,150,105,0.06); }
+  }
+
+  /* Modal styles (simple custom modal, not Bootstrap's js modal) */
+  .modal-backdrop-custom {
+    position: fixed;
+    inset: 0;
+    background: rgba(2,6,23,0.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index: 1050;
+    padding: 1rem;
+  }
+  .modal-dialog-custom {
+    width: 100%;
+    max-width: 900px;
+  }
+
+  /* Small buttons */
+  .btn-purple { background: linear-gradient(90deg,#7c3aed,#6d28d9); color:#fff; border:none; }
+}
+
+/* ensure cards are equal height (h-100 used), keep consistent inner spacing */
+.card.h-100 { display:flex; flex-direction:column; }
+
+/* small responsive tweaks */
+@media (max-width: 767px) {
+  .icon-circle { width: 48px; height: 48px; }
+}

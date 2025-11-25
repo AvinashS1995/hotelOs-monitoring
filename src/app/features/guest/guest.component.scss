@@ -1,0 +1,78 @@
+.btn-pink {
+  background-color: #e11d48;
+  color: white;
+}
+.btn-pink:hover {
+  background-color: #be123c;
+  color: white;
+}
+
+.bg-pink-100 {
+  background-color: #fbcfe8 !important;
+}
+
+.text-pink-600 {
+  color: #db2777 !important;
+}
+
+// .icon-circle {
+//   width: 54px;
+//   height: 54px;
+//   border-radius: 12px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: 22px;
+//   transition: all 0.2s;
+// }
+
+.icon-circle i {
+  font-size: 22px;
+}
+
+/* Gradient utility */
+.bg-gradient-pink-purple {
+  background: linear-gradient(135deg, #e11d48, #b333ea) !important;
+}
+
+/* Icon circle default */
+.icon-circle {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  background-color: #fbcfe8; /* default bg */
+  color: #db2777; /* default icon color */
+  transition: all 0.3s ease;
+}
+
+/* Icon circle hover for buttons/cards */
+.btn .icon-circle:hover {
+  background: linear-gradient(135deg, #e11d48, #b333ea); /* gradient bg */
+  color: white; /* icon white */
+  transform: scale(1.1);
+}
+
+/* Optional: smooth scaling of icon inside circle */
+.btn .icon-circle i {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.btn .icon-circle:hover i {
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Shadow for hover effect on entire button */
+.hover-shadow:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #db2777 !important;
+}
+
+.service-name {
+  font-size: clamp(0.8rem, 1vw, 1rem);
+  text-wrap: balance;
+}

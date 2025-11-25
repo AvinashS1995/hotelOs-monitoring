@@ -1,0 +1,96 @@
+/* Background */
+.landing-bg {
+  background: linear-gradient(to bottom right, #eff6ff, #ffffff, #f3e8ff);
+}
+
+/* Logo box */
+.logo-box {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(to bottom right, #2563eb, #7c3aed);
+  border-radius: 10px;
+}
+
+.logo-small {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(to bottom right, #2563eb, #7c3aed);
+  border-radius: 8px;
+}
+
+/* Hero badge */
+.badge-pill {
+  display: inline-flex;
+  padding: 8px 16px;
+  background: #dbeafe;
+  color: #1e40af;
+  border-radius: 999px;
+  align-items: center;
+  gap: 6px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #2563eb;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: .4 }
+  50% { opacity: 1 }
+  100% { opacity: .4 }
+}
+
+/* Buttons */
+.gradient-btn {
+  background: linear-gradient(to right, #2563eb, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+/* Features */
+.feature-card {
+  transition: 0.2s ease;
+}
+
+.feature-card:hover {
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 26px;
+}
+
+/* Benefit section */
+.benefit-section {
+  background: linear-gradient(to bottom right, #2563eb, #7c3aed);
+}
+
+/* CTA */
+.cta-box {
+  background: linear-gradient(to bottom right, #111, #333);
+}
+
+/* Footer links */
+.footer-link:hover {
+  color: #000;
+}
+
+.benefit-section {
+  background: linear-gradient(to bottom right, #2563eb, #7c3aed);
+}
+
+.benefit-icon {
+  font-size: 2.8rem;
+  color: #dbeafe; /* light blue-100 */
+}

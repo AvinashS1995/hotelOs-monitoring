@@ -1,0 +1,143 @@
+<div class="container py-4">
+  <!-- STATS GRID -->
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-lg-3" *ngFor="let s of stats">
+      <div class="card h-100 shadow-sm border-0 stat-card">
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="icon-circle" [ngClass]="s.gradientClass">
+              <i class="bi" [ngClass]="s.icon"></i>
+            </div>
+          </div>
+          <p class="text-muted mb-1">{{ s.label }}</p>
+          <h3 class="mb-1">{{ s.value() }}</h3>
+          <p class="text-muted mb-0 small">&nbsp;</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row gx-3">
+    <!-- MAIN (tasks) -->
+    <div class="col-12 col-lg-8">
+      <div class="card mb-4 shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between mb-4">
+            <h5 class="mb-0">Today's Tasks</h5>
+            <div class="btn-group" role="group">
+              <button
+                class="btn btn-sm"
+                [class.btn-success]="selectedFilter === 'all'"
+                [class.btn-outline-secondary]="selectedFilter !== 'all'"
+                (click)="setFilter('all')">All</button>
+              <button
+                class="btn btn-sm"
+                [class.btn-success]="selectedFilter === 'pending'"
+                [class.btn-outline-secondary]="selectedFilter !== 'pending'"
+                (click)="setFilter('pending')">Pending</button>
+              <button
+                class="btn btn-sm"
+                [class.btn-success]="selectedFilter === 'in-progress'"
+                [class.btn-outline-secondary]="selectedFilter !== 'in-progress'"
+                (click)="setFilter('in-progress')">In Progress</button>
+              <button
+                class="btn btn-sm"
+                [class.btn-success]="selectedFilter === 'completed'"
+                [class.btn-outline-secondary]="selectedFilter !== 'completed'"
+                (click)="setFilter('completed')">Completed</button>
+            </div>
+          </div>
+
+          <div class="list-unstyled">
+            <div *ngFor="let task of filteredTasks" class="task-card mb-3 p-3 border rounded-3 d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <div class="fw-semibold">Room {{ task.roomNumber }}</div>
+                  <div class="badge priority-badge" [ngClass]="getPriorityClass(task.priority)">{{ task.priority }}</div>
+                </div>
+                <div class="text-muted">{{ getTypeLabel(task.type) }}</div>
+                <div *ngIf="task.time" class="text-muted small">Expected: {{ task.time }}</div>
+                <div *ngIf="task.assignedTo" class="text-muted small">Assigned to: {{ task.assignedTo }}</div>
+                <div *ngIf="task.specialNotes" class="text-primary small mt-2">{{ task.specialNotes }}</div>
+              </div>
+
+              <div class="d-flex flex-column align-items-end gap-2">
+                <span class="status-pill px-3 py-1 rounded text-capitalize" [ngClass]="getStatusClass(task.status)">{{ task.status }}</span>
+
+                <div class="d-flex w-100 gap-2">
+                  <button *ngIf="task.status === 'pending'" class="btn btn-sm btn-primary flex-fill" (click)="updateTaskStatus(task.id, 'in-progress')">Start Cleaning</button>
+                  <button *ngIf="task.status === 'in-progress'" class="btn btn-sm btn-success flex-fill" (click)="updateTaskStatus(task.id, 'completed')">Mark Complete</button>
+                  <button *ngIf="task.status === 'completed'" class="btn btn-sm btn-purple flex-fill" (click)="updateTaskStatus(task.id, 'inspected')">Inspected</button>
+                  <div *ngIf="task.status === 'inspected'" class="d-flex align-items-center justify-content-center flex-fill text-muted small">
+                    <i class="bi bi-check-circle-fill me-1"></i> Completed
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="filteredTasks.length === 0" class="text-muted small p-3">No tasks to show</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="col-12 col-lg-4">
+      <!-- Quick Actions -->
+      <div class="card mb-4 shadow-sm border-0">
+        <div class="card-body">
+          <h6>Quick Actions</h6>
+          <div class="d-grid gap-2 mt-3">
+            <button class="btn btn-outline-success text-start">Report Lost &amp; Found</button>
+            <button class="btn btn-outline-warning text-start">Request Maintenance</button>
+            <button class="btn btn-outline-primary text-start">Report Minibar Usage</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory -->
+      <div class="card mb-4 shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <i class="bi bi-box-seam fs-5"></i>
+            <h6 class="mb-0">Inventory Status</h6>
+          </div>
+
+          <div class="inventory-list">
+            <div *ngFor="let item of inventory" class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="text-muted">{{ item.name }}</div>
+                <div [ngClass]="item.current < item.min ? 'text-danger' : 'text-dark'">{{ item.current }} {{ item.unit }}</div>
+              </div>
+
+              <div class="progress" style="height:8px;">
+                <div class="progress-bar" role="progressbar"
+                     [class.bg-danger]="item.current < item.min"
+                     [class.bg-success]="item.current >= item.min"
+                     [style.width.%]="inventoryPercent(item)"></div>
+              </div>
+
+              <div *ngIf="item.current < item.min" class="text-danger small mt-1">Low stock - Order soon</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Status -->
+      <div class="card mb-4 shadow-sm border-0">
+        <div class="card-body">
+          <h6>Team Status</h6>
+          <div class="mt-3">
+            <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light mb-2" *ngFor="let m of [{name:'Maria Garcia', status:'active', tasks:3},{name:'John Smith', status:'active', tasks:2},{name:'Sarah Johnson', status:'break', tasks:1}]">
+              <div>
+                <div class="fw-semibold">{{ m.name }}</div>
+                <div class="small text-muted">{{ m.tasks }} tasks assigned</div>
+              </div>
+              <div class="badge" [ngClass]="m.status === 'active' ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning'">{{ m.status }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

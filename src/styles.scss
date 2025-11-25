@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+  --primary-1: #2563eb;
+  --primary-2: #7c3aed;
+  --bg: #ffffff;
+  --muted: #6b7280;
+  --card-radius: 12px;
+  --radius: 0.75rem;
+  font-size: 16px;
+  background-color: var(--bg);
+  color: #111827;
+}
+
+body {
+  background: linear-gradient(135deg,#f0f8ff 0%, #f8f0ff 100%);
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* small helpers */
+.card { border-radius: var(--card-radius); }
+.text-muted { color: var(--muted) !important; }

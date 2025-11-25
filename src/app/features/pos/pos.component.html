@@ -1,0 +1,120 @@
+<div class="container-fluid py-4">
+  <!-- Stats -->
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-lg-4" *ngFor="let stat of stats">
+      <div class="card h-100 shadow-sm border-0 stat-card">
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="icon-circle" [ngClass]="stat.color">
+              <i class="bi" [ngClass]="stat.icon"></i>
+            </div>
+          </div>
+          <p class="text-muted mb-1">{{ stat.label }}</p>
+          <h3 class="mb-1">{{ stat.value }}</h3>
+          <p class="text-muted mb-0 small">&nbsp;</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Menu Items -->
+    <div class="col-lg-8">
+      <!-- Search & Category -->
+      <div class="card mb-3 p-3">
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="text" class="form-control" placeholder="Search menu items..." [(ngModel)]="searchQuery">
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <button *ngFor="let cat of categories" class="btn btn-outline-secondary"
+            [ngClass]="{'btn-danger text-white': selectedCategory===cat}"
+            (click)="selectedCategory = cat">{{cat}}</button>
+        </div>
+      </div>
+
+      <!-- Menu Grid -->
+      <div class="row row-cols-1 row-cols-sm-2 g-3">
+        <div class="col" *ngFor="let item of filteredItems">
+          <button class="card h-100 text-start border hover-shadow p-3  w-100" (click)="addToCart(item)">
+            <div class="d-flex align-items-center gap-3">
+              <div class="fs-2">{{ item.image }}</div>
+              <div class="flex-grow-1">
+                <h6>{{ item.name }}</h6>
+                <small class="text-muted text-capitalize">{{ item.category }}</small>
+                <p class="mb-0">${{ item.price.toFixed(2) }}</p>
+              </div>
+              <i class="bi bi-plus-lg text-danger fs-5"></i>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Cart -->
+    <div class="col-lg-4">
+      <div class="card p-3">
+        <h5>Current Order</h5>
+        <input type="text" placeholder="Room Number (Optional)" class="form-control mb-3" [(ngModel)]="roomNumber">
+
+        <div *ngIf="cart.length===0" class="text-center py-5 text-muted">
+          <i class="bi bi-cart fs-1 mb-2"></i>
+          <p>No items in cart</p>
+        </div>
+
+        <div *ngFor="let item of cart" class="border rounded p-2 mb-2">
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="d-flex gap-2">
+              <span class="fs-3">{{ item.image }}</span>
+              <div>
+                <p class="mb-0">{{ item.name }}</p>
+                <small>${{ item.price.toFixed(2) }} each</small>
+              </div>
+            </div>
+            <button class="btn btn-link text-danger p-0" (click)="removeFromCart(item.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <div class="btn-group">
+              <button class="btn btn-sm btn-light" (click)="updateQuantity(item.id,-1)"><i
+                  class="bi bi-dash"></i></button>
+              <span class="px-2">{{ item.quantity }}</span>
+              <button class="btn btn-sm btn-light" (click)="updateQuantity(item.id,1)"><i
+                  class="bi bi-plus"></i></button>
+            </div>
+            <span>${{ (item.price*item.quantity).toFixed(2) }}</span>
+          </div>
+        </div>
+
+        <!-- Totals -->
+        <div *ngIf="cart.length>0" class="mt-3">
+          <div class="d-flex justify-content-between"><span>Subtotal</span><span>${{subtotal.toFixed(2)}}</span></div>
+          <div class="d-flex justify-content-between"><span>Tax (10%)</span><span>${{tax.toFixed(2)}}</span></div>
+          <div class="d-flex justify-content-between fw-bold border-top pt-2">
+            <span>Total</span><span>${{total.toFixed(2)}}</span></div>
+
+          <button class="btn btn-danger w-100 mt-3" (click)="showCheckout=true">
+            {{ roomNumber ? 'Charge to Room ' + roomNumber : 'Process Payment' }}
+          </button>
+          <button class="btn btn-outline-secondary w-100 mt-2" (click)="clearOrder()">Clear Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div *ngIf="showCheckout"
+    class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50">
+    <div class="bg-white rounded p-4 text-center" (click)="$event.stopPropagation()">
+      <div class="bg-success rounded-circle w-16 h-16 d-flex justify-content-center align-items-center mx-auto mb-3">
+        <i class="bi bi-receipt fs-3 text-white"></i>
+      </div>
+      <h5>Order Completed</h5>
+      <p>{{ roomNumber ? 'Order charged to Room '+roomNumber : 'Payment processed successfully' }}</p>
+      <p class="fw-bold">${{total.toFixed(2)}}</p>
+      <button class="btn btn-danger w-100 mt-2" (click)="clearOrder(); showCheckout=false;">New Order</button>
+    </div>
+  </div>
+</div>

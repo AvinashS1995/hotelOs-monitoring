@@ -1,0 +1,186 @@
+<div class="manager-dashboard container-fluid py-4">
+    <!-- Header -->
+    <!-- <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center gap-3">
+            <div class="header-icon bg-gradient rounded-lg d-flex align-items-center justify-content-center">
+                <i class="bi bi-graph-up fs-4 text-white"></i>
+            </div>
+        
+        </div>
+       
+    </div> -->
+
+    <!-- KPI Stats -->
+    <!-- <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-lg-3" *ngFor="let s of kpiStats; let i = index">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="icon-circle" [ngClass]="getGradientClass(i)">
+                            <i [class]="'bi ' + s.icon"></i>
+                        </div>
+                        <div>
+                            <p class="text-muted mb-0">{{ s.label }}</p>
+                            <h5 class="mb-0">{{ s.value }}</h5>
+                        </div>
+                    </div>
+                    <span class="badge"
+                        [ngClass]="s.trend === 'up' ? 'bg-success text-white' : 'bg-danger text-white'">{{ s.change
+                        }}</span>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-lg-3" *ngFor="let s of kpiStats; let i = index">
+      <div class="card h-100 shadow-sm border-0 stat-card">
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="icon-circle" [ngClass]="getGradientClass(i)">
+              <i class="bi" [ngClass]="s.icon"></i>
+            </div>
+
+            <span class="badge"
+                        [ngClass]="s.trend === 'up' ? 'bg-success text-white' : 'bg-danger text-white'">{{ s.change
+                        }}</span>
+          </div>
+          <p class="text-muted mb-1">{{ s.label }}</p>
+          <h3 class="mb-1">{{ s.value }}</h3>
+          <p class="text-muted mb-0 small">&nbsp;</p>
+        </div>
+      </div>
+       
+    </div>
+  </div>
+
+    <!-- Charts row 1 -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5>Revenue Trend (Last 6 Months)</h5>
+                    <canvas id="revenueChart" style="height:300px;"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5>Weekly Occupancy Rate (%)</h5>
+                    <canvas id="occupancyChart" style="height:300px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts row 2 -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5>Room Type Occupancy</h5>
+                    <canvas id="roomTypeChart" style="height:250px;"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5>Revenue by Department</h5>
+                    <canvas id="deptRevenueChart" style="height:250px;"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5>Today's Overview</h5>
+                    <div class="mt-3">
+                        <div class="d-flex justify-content-between align-items-center p-2 bg-blue-50 rounded mb-2">
+                            <div><small class="text-muted">Check-ins</small>
+                                <div class="fw-semibold">18 guests</div>
+                            </div>
+                            <i class="bi bi-people fs-3 text-primary"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center p-2 bg-green-50 rounded mb-2">
+                            <div><small class="text-muted">Check-outs</small>
+                                <div class="fw-semibold">15 guests</div>
+                            </div>
+                            <i class="bi bi-calendar fs-3 text-success"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center p-2 bg-purple-50 rounded mb-2">
+                            <div><small class="text-muted">Revenue Today</small>
+                                <div class="fw-semibold">$8,450</div>
+                            </div>
+                            <i class="bi bi-currency-dollar fs-3 text-purple"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center p-2 bg-yellow-50 rounded">
+                            <div><small class="text-muted">Avg Rating</small>
+                                <div class="fw-semibold">4.7/5.0</div>
+                            </div>
+                            <i class="bi bi-star-fill fs-3 text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom row -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5>Upcoming Arrivals Forecast</h5>
+                    <div class="mt-3">
+                        <div *ngFor="let a of upcomingArrivals"
+                            class="d-flex justify-content-between align-items-center p-3 border rounded mb-2">
+                            <div>
+                                <div class="fw-semibold">{{ a.date }}</div>
+                                <small class="text-muted">{{ a.count }} arrivals</small>
+                            </div>
+                            <span class="badge bg-warning text-dark">{{ a.vip }} VIP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5>Department Performance</h5>
+                    <div class="mt-3">
+                        <div *ngFor="let d of [{name:'Reception',pct:95},{name:'Housekeeping',pct:92},{name:'Maintenance',pct:88},{name:'F&B',pct:94}]"
+                            class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <div>{{ d.name }}</div>
+                                <div>{{ d.pct }}%</div>
+                            </div>
+                            <div class="progress" style="height:8px;">
+                                <div class="progress-bar" role="progressbar" [style.width]="d.pct + '%'"
+                                    [attr.aria-valuenow]="d.pct" aria-valuemin="0" aria-valuemax="100">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="card text-white mt-3 bg-gradient-panel">
+        <div class="card-body">
+            <h5 class="text-white">Month-to-Date Performance</h5>
+            <div class="row">
+                <div class="col-6 col-sm-3" *ngFor="let m of keyMetrics">
+                    <small class="text-white-50">{{ m.label }}</small>
+                    <div class="fs-5 fw-bold">{{ m.value }}</div>
+                    <small class="text-white-50">{{ m.note }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

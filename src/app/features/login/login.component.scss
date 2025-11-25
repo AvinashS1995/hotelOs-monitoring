@@ -1,0 +1,54 @@
+// Local styles to match the React look and feel
+
+.card {
+  border-radius: 12px;
+}
+
+button.btn.text-start {
+  text-align: left;
+  transition: all .12s;
+  padding: 12px;
+}
+
+button.btn.text-start.active,
+button.btn.text-start:hover {
+  border-color: #2563eb;
+  background: #f0f8ff;
+}
+
+.rounded-3 { border-radius: 12px; }
+
+/* left side brand badge */
+@media (min-width: 992px) {
+  .card-body { padding: 2.5rem; }
+}
+
+.role-btn {
+  border-radius: 14px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.role-btn-inner {
+  min-height: 110px;
+}
+
+.icon-circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.role-name {
+  font-size: clamp(0.8rem, 1vw, 1rem);
+  text-wrap: balance;
+}

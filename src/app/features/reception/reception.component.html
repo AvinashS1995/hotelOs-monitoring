@@ -1,0 +1,272 @@
+<!-- Outer layout wrapper replicating DashboardLayout + content -->
+<div class="reception-wrapper">
+
+  <!-- STATS GRID -->
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-lg-3" *ngFor="let s of stats">
+      <div class="card h-100 shadow-sm border-0 stat-card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div class="stat-icon" [ngClass]="s.colorClass"></div>
+          </div>
+          <p class="text-muted mb-1">{{ s.label }}</p>
+          <h3 class="mb-1">{{ s.value }}</h3>
+          <small class="text-muted">{{ s.subtext }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="card mb-4 shadow-sm border-0">
+    <div class="card-body">
+      <div class="d-flex flex-column flex-sm-row gap-3 align-items-start align-items-sm-center justify-content-between">
+        <div class="flex-grow-1 w-100 me-3 position-relative">
+          <i class="bi bi-search action-search-icon"></i>
+          <input type="text" class="form-control ps-5" placeholder="Search guests, rooms, bookings..."
+                 [(ngModel)]="searchQuery" />
+        </div>
+
+        <div class="d-flex gap-2 w-100 w-sm-auto">
+          <button class="btn btn-outline-secondary d-flex align-items-center gap-2">
+            <i class="bi bi-funnel"></i> Filter
+          </button>
+          <button class="btn btn-primary d-flex align-items-center gap-2">
+            <i class="bi bi-plus-lg"></i> New Booking
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="mb-4">
+    <ul class="nav nav-tabs overflow-auto">
+      <li class="nav-item" *ngFor="let t of tabs">
+        <a class="nav-link"
+           [class.active]="activeTab === t.id"
+           (click)="setTab(t.id)"
+           href="javascript:void(0)">{{ t.label }}</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- TAB CONTENT -->
+  <div *ngIf="activeTab === 'overview'">
+    <div class="row g-3">
+      <!-- Recent Check-ins -->
+      <div class="col-12 col-lg-6">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="card-title">Recent Check-ins</h5>
+            <div class="list-group list-group-flush">
+              <div class="list-group-item bg-transparent" *ngFor="let a of checkedInArrivals">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <div class="fw-semibold">{{ a.guestName }}</div>
+                    <div class="text-muted small">Room {{ a.roomNumber }}</div>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span *ngIf="a.isVIP" class="badge vip-badge">VIP</span>
+                    <i class="bi bi-check-circle-fill text-success"></i>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="checkedInArrivals.length === 0" class="p-3 text-muted small">No recent check-ins</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Arrivals -->
+      <div class="col-12 col-lg-6">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="card-title">Pending Arrivals</h5>
+            <div class="stack">
+              <div *ngFor="let a of arrivingArrivals" class="mb-3 p-3 border rounded-3">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <div>
+                    <div class="fw-semibold">{{ a.guestName }}</div>
+                    <div class="text-muted small">Room {{ a.roomNumber }}</div>
+                  </div>
+                  <div *ngIf="a.isVIP" class="badge vip-badge">VIP</div>
+                </div>
+                <div class="text-muted mb-2 small">{{ a.checkIn }}</div>
+                <div *ngIf="a.specialRequests" class="text-muted mb-2">{{ a.specialRequests }}</div>
+                <div class="d-grid">
+                  <button class="btn btn-primary" (click)="checkIn(a.id)">Check In</button>
+                </div>
+              </div>
+
+              <div *ngIf="arrivingArrivals.length === 0" class="text-muted small">No pending arrivals</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARRIVALS TABLE -->
+  <div *ngIf="activeTab === 'arrivals'">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Guest Name</th>
+                <th>Room</th>
+                <th>Check-in Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of filteredArrivals">
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <div>{{ a.guestName }}</div>
+                    <div *ngIf="a.isVIP" class="badge vip-badge small">VIP</div>
+                  </div>
+                </td>
+                <td>{{ a.roomNumber }}</td>
+                <td>{{ a.checkIn }}</td>
+                <td>
+                  <span class="badge" [ngClass]="a.status === 'checked-in' ? 'bg-success-light' : 'bg-warning-light'">
+                    {{ a.status === 'checked-in' ? 'Checked In' : 'Arriving' }}
+                  </span>
+                </td>
+                <td>
+                  <button *ngIf="a.status === 'arriving'" class="btn btn-sm btn-primary" (click)="checkIn(a.id)">Check In</button>
+                </td>
+              </tr>
+              <tr *ngIf="filteredArrivals.length === 0">
+                <td colspan="5" class="text-center text-muted small">No arrivals found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPARTURES TABLE -->
+  <div *ngIf="activeTab === 'departures'">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Guest Name</th>
+                <th>Room</th>
+                <th>Check-out Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let d of filteredDepartures">
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <div>{{ d.guestName }}</div>
+                    <div *ngIf="d.isVIP" class="badge vip-badge small">VIP</div>
+                  </div>
+                </td>
+                <td>{{ d.roomNumber }}</td>
+                <td>{{ d.checkOut }}</td>
+                <td>
+                  <span class="badge"
+                        [ngClass]="d.status === 'checked-out' ? 'bg-secondary-light' : 'bg-info-light'">
+                    {{ d.status === 'checked-out' ? 'Checked Out' : 'In House' }}
+                  </span>
+                </td>
+                <td>
+                  <button *ngIf="d.status === 'checked-in'" class="btn btn-sm btn-warning" (click)="checkOut(d.id)">Check Out</button>
+                </td>
+              </tr>
+              <tr *ngIf="filteredDepartures.length === 0">
+                <td colspan="5" class="text-center text-muted small">No departures found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROOMS GRID -->
+  <div *ngIf="activeTab === 'rooms'">
+    <div class="row g-3">
+  <div class="col-6 col-sm-4 col-md-3 col-lg-2" *ngFor="let room of rooms">
+    <button
+      class="room-card btn w-100 text-start p-3 border-0 shadow-sm h-100 d-flex flex-column justify-content-between"
+      [ngClass]="getStatusClass(room.status)"
+      (click)="openRoom(room)"
+    >
+      <div>
+        <div class="fw-semibold">Room {{ room.number }}</div>
+        <div class="text-muted small">{{ room.type }}</div>
+      </div>
+
+      <div>
+        <span
+          class="badge bg-white text-dark rounded-pill"
+        >
+          {{ room.status }}
+        </span>
+      </div>
+
+      <div *ngIf="room.guest" class="text-muted small">
+        {{ room.guest }}
+      </div>
+    </button>
+  </div>
+</div>
+
+
+   <!-- Room Modal -->
+<div class="modal-backdrop-custom" *ngIf="selectedRoom as room" (click)="closeRoom()">
+  <div class="modal-dialog-custom" (click)="$event.stopPropagation()">
+    <div class="card">
+      <div class="card-body">
+
+        <h5>Room {{ room.number }} Details</h5>
+
+        <div class="mb-3">
+          <div class="text-muted">Room Type</div>
+          <div class="fw-semibold">{{ room.type }}</div>
+        </div>
+
+        <div class="mb-3">
+          <div class="text-muted">Status</div>
+          <div>
+            <span class="badge status-pill"
+                  [ngClass]="getStatusClass(room.status)">
+              {{ room.status }}
+            </span>
+          </div>
+        </div>
+
+        <div *ngIf="room.guest" class="mb-3">
+          <div class="text-muted">Guest</div>
+          <div class="fw-semibold">{{ room.guest }}</div>
+          <div class="text-muted small">
+            Check-in: {{ room.checkIn }} • Check-out: {{ room.checkOut }}
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-primary flex-grow-1">Manage Room</button>
+          <button class="btn btn-outline-secondary" (click)="closeRoom()">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+</div>

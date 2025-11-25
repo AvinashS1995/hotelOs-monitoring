@@ -1,0 +1,121 @@
+<div class="min-vh-100 landing-bg">
+
+  <!-- HEADER -->
+  <header class="border-bottom bg-white bg-opacity-75 backdrop-blur sticky-top z-50">
+    <div class="container py-3 d-flex justify-content-between align-items-center">
+
+      <div class="d-flex align-items-center gap-2">
+        <div class="logo-box d-flex align-items-center justify-content-center">
+          <i class="lucide-hotel text-white fs-4"></i>
+        </div>
+        <span class="fw-semibold text-dark">HotelOS</span>
+      </div>
+
+      <button class="btn btn-primary px-4" (click)="navigateLogin()">Sign In</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="container text-center py-5 hero-section">
+    <div class="badge-pill mx-auto mb-4">
+      <span class="pulse-dot"></span>
+      <span>Real-time Hotel Management System</span>
+    </div>
+
+    <h1 class="display-5 fw-bold mb-3 text-dark">
+      Complete Hotel Management & Monitoring System
+    </h1>
+
+    <p class="text-muted lead mb-4">
+      End-to-end solution for managing your hotel operations. From reception to housekeeping,
+      maintenance to guest services — all in one unified platform.
+    </p>
+
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <button class="btn gradient-btn px-4 py-2 d-flex align-items-center gap-2"
+              (click)="navigateLogin()">
+        Get Started <i class="lucide-arrow-right"></i>
+      </button>
+      <button class="btn btn-outline-secondary px-4 py-2">Watch Demo</button>
+    </div>
+  </section>
+
+  <!-- FEATURES GRID -->
+  <section class="container py-5">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-dark mb-2">All-in-One Platform</h2>
+      <p class="text-muted">Everything you need to run your hotel efficiently</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4" *ngFor="let f of features">
+        <div class="feature-card p-4 border rounded-3 bg-white shadow-sm">
+
+          <div class="feature-icon mb-3" [ngStyle]="{ 'background-image': f.color }">
+            <i class="lucide" [ngClass]="f.icon"></i>
+          </div>
+
+          <h4 class="fw-semibold mb-2 text-dark">{{ f.title }}</h4>
+          <p class="text-muted">{{ f.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- BENEFITS -->
+<section class="benefit-section text-white py-5">
+  <div class="container">
+
+    <!-- Title -->
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Why Choose HotelOS?</h2>
+      <p class="text-light opacity-75">Built for modern hotels with real-world requirements</p>
+    </div>
+
+    <!-- Benefits Grid -->
+    <div class="row text-center g-4">
+      <div class="col-md-6 col-lg-3" *ngFor="let b of benefits">
+        <i class="bi bi-check-circle-fill benefit-icon mb-3"></i>
+        <h5 class="fw-semibold">{{ b.label }}</h5>
+        <p class="text-light opacity-75">{{ b.value }}</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+  <!-- CTA -->
+  <section class="container py-5">
+    <div class="cta-box text-center text-white p-5 rounded-4">
+      <h2 class="fw-bold mb-3">Ready to Transform Your Hotel Operations?</h2>
+      <p class="opacity-75 mb-4">
+        Join hundreds of hotels already using HotelOS to streamline their operations and improve guest satisfaction.
+      </p>
+
+      <button class="btn btn-light px-4 py-2 d-inline-flex align-items-center gap-2"
+              (click)="navigateLogin()">
+        Start Free Trial <i class="lucide-arrow-right"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-top bg-white py-4">
+    <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+
+      <div class="d-flex align-items-center gap-2">
+        <div class="logo-small d-flex align-items-center justify-content-center">
+          <i class="lucide-hotel text-white"></i>
+        </div>
+        <span class="text-muted">© 2025 HotelOS. All rights reserved.</span>
+      </div>
+
+      <div class="d-flex gap-4 text-muted">
+        <a href="#" class="footer-link">Terms</a>
+        <a href="#" class="footer-link">Privacy</a>
+        <a href="#" class="footer-link">Contact</a>
+      </div>
+    </div>
+  </footer>
+</div>
